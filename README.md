@@ -24,7 +24,7 @@ ExploreService is a gRPC-based microservice designed to handle decisions (e.g., 
 
 ## Installation
 
-Clone the repository:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/your-username/exploreService.git
@@ -38,12 +38,25 @@ Clone the repository:
    **Running Locally**
    Start MySQL locally and ensure the credentials match.
    - Run the server: go run cmd/server/main.go
+
+## Running the Application
+   **With Docker**
+   - docker-compose build
+   - docker-compose up
    
-##  Testing
+   **Running Locally**
+   Start MySQL locally and ensure the credentials match.
+   - Run the server: go run cmd/server/main.go
+## Running Tests
+**unit tests**
+
+    -go test ./... -v
+
    Use **Postman** or any other gRPC client to test the API methods.
    Verify database changes via SQL queries using a MySQL client.
 
    gRPC Requests (Postman)
+   
    **PutDecision**:
    {
     "actor_user_id": "user1",
@@ -66,7 +79,9 @@ Clone the repository:
 To handle large-scale user data:
 
 **Database Indexing** : Ensure indexes on frequently queried fields (user_id, target_id, decision).
-**Caching** : Use Redis or Memcached to cache frequent queries like CountLikedYou.
-**Load Balancing** : Use a load balancer to distribute traffic across multiple instances.
-**Asynchronous Processing** : Use message queues for processing decisions asynchronously.
 
+**Caching** : Use Redis or Memcached to cache frequent queries like CountLikedYou.
+
+**Load Balancing** : Use a load balancer to distribute traffic across multiple instances.
+
+**Asynchronous Processing** : Use message queues for processing decisions asynchronously.
