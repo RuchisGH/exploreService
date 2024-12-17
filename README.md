@@ -24,7 +24,7 @@ ExploreService is a gRPC-based microservice designed to handle decisions (e.g., 
 
 ## Installation
 
-1. Clone the repository:
+Clone the repository:
 
    ```bash
    git clone https://github.com/your-username/exploreService.git
@@ -32,16 +32,17 @@ ExploreService is a gRPC-based microservice designed to handle decisions (e.g., 
 
 ## Running the Application
    **With Docker**
-   Build the Docker image: docker-compose build
-   Run the container:docker-compose up
+   - docker-compose build
+   - docker-compose up
    
    **Running Locally**
-   Start MySQL locally and ensure the credentials match the .env file.
-   Run the server: go run cmd/server/main.go
+   Start MySQL locally and ensure the credentials match.
+   - Run the server: go run cmd/server/main.go
    
 ##  Testing
    Use **Postman** or any other gRPC client to test the API methods.
    Verify database changes via SQL queries using a MySQL client.
+
    gRPC Requests (Postman)
    **PutDecision**:
    {
@@ -49,10 +50,12 @@ ExploreService is a gRPC-based microservice designed to handle decisions (e.g., 
     "liked_recipient": true,
     "recipient_user_id": "user2"
    }
+
    **ListLikedYou**:
    {
       "recipient_user_id": "user2"
    }
+
    **CountLikedYou**:
    Copy code
    {
