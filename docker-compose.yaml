@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  # The Go application container
+  go-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"  # Exposing gRPC port
+    depends_on:
+      - db
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: your_password
+      MYSQL_DATABASE: dbname
+      MYSQL_HOST: db
+    networks:
+      - app-network
+    restart: always
+
+  # The MySQL database container
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"  # Exposing MySQL port
+    networks:
+      - app-network
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persist data
+
+# Define the network that both containers will use
+networks:
+  app-network:
+    driver: bridge
+
+# Define a volume to persist MySQL data
+volumes:
+  mysql-data:
+    driver: local
