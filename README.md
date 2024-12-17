@@ -43,7 +43,7 @@ ExploreService is a gRPC-based microservice designed to handle decisions (e.g., 
 ## Running Tests
 **unit tests**
 
-    -go test ./... -v
+    - go test ./... -v
 
    Use **Postman** or any other gRPC client to test the API methods.
    Verify database changes via SQL queries using a MySQL client.
@@ -80,8 +80,8 @@ To handle large-scale user data:
 **Asynchronous Processing** : Use message queues for processing decisions asynchronously.
 
 ## Optimizations
-Database Migrations
-To streamline database schema management, we can use golang-migrate, a powerful tool for running database migrations
-Additional Indexes for Performance
-Indexes can significantly improve the performance of query-heavy methods like ListLikedYou and CountLikedYou by reducing query execution time
-More indexes need to be created on composite keys of decisions table
+**Database Migrations**
+- To streamline database schema management, we can use golang-migrate, a powerful tool for running database migrations
+**Additional Indexes for Performance**
+- Indexes can significantly improve the performance of query-heavy methods like ListLikedYou and CountLikedYou by reducing query execution time
+- More indexes need to be created on composite keys of decisions table
