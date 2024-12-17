@@ -78,3 +78,10 @@ To handle large-scale user data:
 **Load Balancing** : Use a load balancer to distribute traffic across multiple instances.
 
 **Asynchronous Processing** : Use message queues for processing decisions asynchronously.
+
+## Optimizations
+Database Migrations
+To streamline database schema management, we can use golang-migrate, a powerful tool for running database migrations
+Additional Indexes for Performance
+Indexes can significantly improve the performance of query-heavy methods like ListLikedYou and CountLikedYou by reducing query execution time
+More indexes need to be created on composite keys of decisions table
