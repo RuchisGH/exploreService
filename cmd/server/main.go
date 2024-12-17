@@ -11,12 +11,33 @@ import (
 	genproto "example.com/mod/internal/genproto"
 	grpcimpl "example.com/mod/internal/grpcimpl"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	// Initialize database connection
-	dsn := "user:your_password@tcp(localhost:3306)/dbname"
+
+	// Load environment variables from .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	// Retrieve environment variables
+	port := os.Getenv("PORT")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+
+	// Log server start for verification
+	log.Printf("Server starting on port %s...", port)
+
+	// Build the database connection string
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPassword, dbHost, dbPort, dbName)
+	log.Printf("Connecting to database: %s", dsn)
+
 	conn, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
@@ -30,12 +51,6 @@ func main() {
 
 	// Initialize the database wrapper
 	database := db.NewDatabase(conn)
-
-	// Set up listener
-	lis, err := net.Listen("tcp", ":50051")
-	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
-	}
 
 	// path to the SQL file in the migrations folder
 	createDecisionTable := "migrations/001_create_decisions_table.sql"
@@ -67,7 +82,7 @@ func main() {
 	// Execute the SQL to insert data
 	_, err = conn.Exec(string(indexDecTable))
 	if err != nil {
-		log.Fatalf("Error creating index on table: %v", err)
+		fmt.Println("Problem creating index")
 	}
 
 	// If successful, print a success message
@@ -93,6 +108,13 @@ func main() {
 
 	// Register the ExploreService with the server using the generated Register function
 	genproto.RegisterExploreServiceServer(s, &grpcimpl.ExploreServer{DB: database})
+
+	// Set up listener
+	lisPort := fmt.Sprintf(":%s", port)
+	lis, err := net.Listen("tcp", lisPort)
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
 
 	// Start server
 	fmt.Println("Server is running on port 50051...")
