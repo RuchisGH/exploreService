@@ -28,7 +28,6 @@ ExploreService is a gRPC-based microservice designed to handle decisions (e.g., 
 
    ```bash
    git clone https://github.com/RuchisGH/exploreService
-   cd exploreService
 
 ## Running the Application
    **With Docker**
